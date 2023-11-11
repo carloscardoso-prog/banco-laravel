@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransacaoController;
 use App\Http\Controllers\UsuarioController;
@@ -15,25 +16,26 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::prefix('')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::prefix('dashboard')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index')->middleware('auth');
 });
+
+//logar e deslogar
+Route::get('/', [AuthController::class, 'show'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::prefix('transacao')->group(function () {
     //realizar transação
-    Route::get('/cadastrarTransacao', [TransacaoController::class, 'cadastrarTransacao'])->name('transacao.cadastro');
-    Route::post('/cadastrarTransacao', [TransacaoController::class, 'cadastrarTransacao'])->name('transacao.cadastro');
+    Route::get('/cadastrarTransacao', [TransacaoController::class, 'cadastrarTransacao'])->name('transacao.cadastro')->middleware('auth');
+    Route::post('/cadastrarTransacao', [TransacaoController::class, 'cadastrarTransacao'])->name('transacao.cadastro')->middleware('auth');
 });
 
 Route::prefix('usuario')->group(function () {
     //adicionar saldo
-    Route::get('/adicionarSaldo', [UsuarioController::class, 'adicionarSaldo'])->name('usuario.adicionarSaldo');
-    Route::post('/adicionarSaldo', [UsuarioController::class, 'adicionarSaldo'])->name('usuario.adicionarSaldo');
+    Route::get('/adicionarSaldo', [UsuarioController::class, 'adicionarSaldo'])->name('usuario.adicionarSaldo')->middleware('auth');
+    Route::post('/adicionarSaldo', [UsuarioController::class, 'adicionarSaldo'])->name('usuario.adicionarSaldo')->middleware('auth');
     //cadastrar usuario
-    Route::get('/cadastrarUsuario', [UsuarioController::class, 'cadastrarUsuario'])->name('usuario.cadastrarUsuario');
-    Route::post('/cadastrarUsuario', [UsuarioController::class, 'cadastrarUsuario'])->name('usuario.cadastrarUsuario');
-    //logar e deslogar
-    Route::get('/login', [UsuarioController::class, 'login'])->name('usuario.login');
-    Route::post('/login', [UsuarioController::class, 'login'])->name('usuario.login');
+    Route::get('/cadastrarUsuario', [UsuarioController::class, 'cadastrarUsuario'])->name('usuario.cadastrarUsuario')->middleware('auth');
+    Route::post('/cadastrarUsuario', [UsuarioController::class, 'cadastrarUsuario'])->name('usuario.cadastrarUsuario')->middleware('auth');
 });

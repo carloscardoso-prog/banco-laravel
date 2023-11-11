@@ -38,21 +38,4 @@ class UsuarioController extends Controller
 
         return view('usuario.adicionarSaldo');
     }
-
-    public function login(Request $request){
-        if($request->method() == 'POST'){
-            $objetoLogin = $request->all();
-
-            $usuarioCadastrado = $this->usuario->getUsuarioLogin($objetoLogin['usuario']);
-
-            if(Hash::check($request['senha'], $usuarioCadastrado['senha'])){
-                $request->session()->put('nome', $usuarioCadastrado['usuario']);
-                return view('dashboard.relatorio');
-            }
-
-        }
-
-        $request->session()->flush();
-        return view('usuario.login');
-    }
 }

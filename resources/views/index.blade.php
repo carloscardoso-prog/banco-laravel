@@ -109,7 +109,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="{{ route('usuario.login') }}">Deslogar</a></li>
+                            <li><a class="dropdown-item" href="{{ route('auth.logout') }}">Deslogar</a></li>
                         </ul>
                     </div>
                 </div>
