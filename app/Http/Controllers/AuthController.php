@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public $usuario;
 
-    public function __construct(Usuario $usuario)
+    public function __construct(User $usuario)
     {
         $this->usuario = $usuario;
     }
@@ -27,25 +27,19 @@ class AuthController extends Controller
             'password' => ['required']
         ])->validate();
 
-        if (auth()->attempt(request()->only('name', 'password'))) {
-            return redirect('/dashboard');
+        $search = $request->all()['name'];
+
+        $userId = $this->usuario->where(function ($query) use ($search) {
+            if ($search) {
+                $query->where('name', 'LIKE', "%{$search}%");
+            }
+        })->get();
+
+        if (auth()->attempt(request()->only('name', 'password')) && !empty($userId)) {
+            return redirect('/dashboard')->with(['userId' => $userId[0]->id]);
         }
 
         return redirect()->back()->withErrors(['name' => 'Dados inválidos!']);
-        // if($request->method() == 'POST'){
-        //     $objetoLogin = $request->all();
-
-        //     $usuarioCadastrado = $this->usuario->getUsuarioLogin($objetoLogin['usuario']);
-
-        //     if(Hash::check($request['senha'], $usuarioCadastrado['senha'])){
-        //         $request->session()->put('nome', $usuarioCadastrado['usuario']);
-        //         return view('dashboard.relatorio');
-        //     }
-
-        // }
-
-        // $request->session()->flush();
-        // return view('usuario.login');
     }
 
     public function logout()

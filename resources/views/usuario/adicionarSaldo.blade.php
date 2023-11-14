@@ -11,8 +11,7 @@
                         <div class="row g-3">
                             <div class="col-sm-12">
                                 <label for="valorSaldo" class="form-label">Valor</label>
-                                <input type="text" class="form-control" id="valorSaldo" placeholder=""
-                                    value="" required="">
+                                <input type="text" class="form-control dinheiro" id="valorSaldo" placeholder="" name="saldo" value="" required="">
                             </div>
                         </div>
 

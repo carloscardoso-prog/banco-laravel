@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
-    public $usuario;
-    public function __construct(Usuario $usuario){
-        $this->usuario = $usuario;
+    public $user;
+    public function __construct(User $user){
+        $this->user = $user;
     }
 
     public function cadastrarUsuario(Request $request){
         if($request->method() == "POST"){
             $objetoUsuario = $request->all();
 
-            $objetoUsuario['senha'] = Hash::make($objetoUsuario['senha']);
-            $this->usuario->create($objetoUsuario);
+            $objetoUsuario['password'] = Hash::make($objetoUsuario['password']);
+            $objetoUsuario['saldo'] = 0;
+            $objetoUsuario['profile_picture'] = '';
+
+            $this->user->create($objetoUsuario);
 
             return redirect()->route('dashboard.index');
         }
@@ -30,8 +34,8 @@ class UsuarioController extends Controller
     public function adicionarSaldo(Request $request){
         if($request->method() == "POST"){
             $objetoSaldo = $request->all();
-
-            $this->usuario->create($objetoSaldo);
+            $objetoSaldo['saldo'] = DefaultController::converteValoresSalvarBanco(['valor' => $objetoSaldo['saldo']]);
+            $this->user->create($objetoSaldo);
 
             return redirect()->route('dashboard.index');
         }

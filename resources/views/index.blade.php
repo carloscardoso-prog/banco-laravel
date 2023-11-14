@@ -13,10 +13,6 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
     <!-- Favicons -->
@@ -73,6 +69,11 @@
 
     <main>
         <header class="py-3 mb-3 border-bottom">
+            @if (session()->has('userId'))
+                <input type="hidden" id="userId" value="{{ session('userId') }}">
+            @else
+                <input type="hidden" value="0">
+            @endif
             <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
                 <div class="dropdown">
                     <a href="#"
@@ -87,8 +88,10 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{{ Route('transacao.cadastro') }}" aria-current="page">Realizar Transação</a></li>
-                        <li><a class="dropdown-item" href="{{ Route('usuario.adicionarSaldo') }}">Adicionar Saldo</a></li>
+                        <li><a class="dropdown-item" href="{{ Route('transacao.cadastro') }}"
+                                aria-current="page">Realizar Transação</a></li>
+                        <li><a class="dropdown-item" href="{{ Route('usuario.adicionarSaldo') }}">Adicionar Saldo</a>
+                        </li>
                         {{-- <li><a class="dropdown-item" href="#">Products</a></li>
                         <li><a class="dropdown-item" href="#">Reports</a></li>
                         <li><a class="dropdown-item" href="#">Analytics</a></li> --}}
@@ -120,8 +123,13 @@
 
     </main>
 
-
-
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 
 </html>

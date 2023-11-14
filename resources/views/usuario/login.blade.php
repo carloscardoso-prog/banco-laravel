@@ -8,15 +8,17 @@
 
             <div class="form-floating">
                 <input type="text" class="form-control" id="name" name="name">
-                <label for="usuario">Usuario</label>
+                <label for="name">Usuario</label>
             </div>
             <div class="form-floating mt-2">
                 <input type="password" class="form-control" id="password" name="password">
-                <label for="senha">Senha</label>
+                <label for="password">Senha</label>
             </div>
 
             <button class="btn btn-primary w-100 py-2 mt-4" type="submit">Entrar</button>
-            <a href="">Não tenho uma conta</a>
+            <div class="mt-3">
+                <a href="{{ route('usuario.cadastrarUsuario') }}">Não tenho uma conta</a>
+            </div>
 
             <div class="form-floating">
                 @if ($errors->any())
