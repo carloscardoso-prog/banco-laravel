@@ -13,19 +13,4 @@ class Usuario extends Model
         'nome',
         'saldo'
     ];
-
-    public function getUsuarioLogin(string $search = '')
-    {
-        $usuario = $this->where(function ($query) use ($search) {
-            if ($search) {
-                $query->where('usuario', "".$search."");
-            }
-        })->get();
-
-        if(!empty($usuario)){
-            $usuario = $usuario[0];
-        }
-
-        return $usuario;
-    }
 }

@@ -1,4 +1,4 @@
-$( document ).ready(function(){
+$(document).ready(function () {
 
-    $('.dinheiro').mask('#.##0,00', {reverse: true});
+    $('.dinheiro').mask('#.##0,00', { reverse: true });
 });

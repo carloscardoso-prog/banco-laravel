@@ -69,11 +69,6 @@
 
     <main>
         <header class="py-3 mb-3 border-bottom">
-            @if (session()->has('userId'))
-                <input type="hidden" id="userId" value="{{ session('userId') }}">
-            @else
-                <input type="hidden" value="0">
-            @endif
             <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
                 <div class="dropdown">
                     <a href="#"
@@ -95,32 +90,29 @@
                         {{-- <li><a class="dropdown-item" href="#">Products</a></li>
                         <li><a class="dropdown-item" href="#">Reports</a></li>
                         <li><a class="dropdown-item" href="#">Analytics</a></li> --}}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                        <li><a class="dropdown-item" href="#">Configurações</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{{ route('auth.logout') }}">Deslogar</a></li>
                     </ul>
                 </div>
 
                 <div class="d-flex flex-row-reverse">
 
                     <div class="flex-shrink-0 dropdown">
-                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
-                                class="rounded-circle">
-                        </a>
-                        <ul class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item" href="#">Perfil</a></li>
-                            <li><a class="dropdown-item" href="#">Configurações</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('auth.logout') }}">Deslogar</a></li>
-                        </ul>
+                        <img src="{{ asset('img/pfp.png') }}" alt="mdo" width="32" height="32"
+                            class="rounded-circle">
                     </div>
                 </div>
             </div>
         </header>
 
         @yield('content')
-
     </main>
 
 </body>

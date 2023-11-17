@@ -8,19 +8,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public $usuario;
-
-    public function __construct(User $usuario)
-    {
-        $this->usuario = $usuario;
-    }
-
-    public function show()
+    public static function show()
     {
         return view("usuario.login");
     }
 
-    public function login(Request $request)
+    public static function login(Request $request)
     {
         validator($request->all(), [
             'name' => ['required'],
@@ -29,14 +22,15 @@ class AuthController extends Controller
 
         $search = $request->all()['name'];
 
-        $userId = $this->usuario->where(function ($query) use ($search) {
+        $userId = User::where(function ($query) use ($search) {
             if ($search) {
                 $query->where('name', 'LIKE', "%{$search}%");
             }
         })->get();
 
         if (auth()->attempt(request()->only('name', 'password')) && !empty($userId)) {
-            return redirect('/dashboard')->with(['userId' => $userId[0]->id]);
+            session()->push('userId', $userId[0]->id);
+            return redirect('/dashboard');
         }
 
         return redirect()->back()->withErrors(['name' => 'Dados inválidos!']);

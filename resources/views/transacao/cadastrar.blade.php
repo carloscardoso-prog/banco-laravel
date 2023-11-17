@@ -9,16 +9,23 @@
                     <div class="col-md-7 col-lg-8">
                         <h4 class="mb-3">Dados da Tranferência</h4>
                         <div class="row g-3">
-                            <div class="col-sm-12">
-                                <label for="destinatarioNome" class="form-label">Destinatário</label>
-                                <input type="text" class="form-control" id="destinatarioNome" placeholder=""
-                                    value="" required="">
+
+                            <div class="col-sm-12 form-floating">
+                                <select class="form-select" id="conta-destinatario" name="conta_destinatario"
+                                    aria-label="Floating label select example">
+                                    @foreach ($usuarios as $usuario)
+                                        @if (Crypt::decrypt($usuario['id']) != $idAuth)
+                                            <option value="{{ $usuario['id'] }}">{{ $usuario['name'] }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <label for="floatingSelect">Selecione o destinatário</label>
                             </div>
 
                             <div class="col-sm-12">
-                                <label for="valorTransferencia" class="form-label">Valor</label>
-                                <input type="text" class="form-control" id="valorTransferencia" placeholder=""
-                                    value="" required="">
+                                <label for="valor-envio" class="form-label">Valor</label>
+                                <input type="text" class="form-control dinheiro" id="valor-envio" name="valor_envio"
+                                    required="">
                             </div>
                         </div>
 
