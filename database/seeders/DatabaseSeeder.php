@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Usuario;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\TransacaoSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
         $this->call([
-            UsuarioSeeder::class,
+            UserSeeder::class,
             TransacaoSeeder::class,
         ]);
     }

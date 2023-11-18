@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function()
-{
+Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 });
 
@@ -28,25 +27,24 @@ Route::get('/', [AuthController::class, 'show'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-Route::group(['prefix' => 'transacao', 'middleware' => 'auth'], function()
-{
+Route::group(['prefix' => 'transacao', 'middleware' => 'auth'], function () {
     Route::get('/cadastrarTransacao', [TransacaoController::class, 'cadastrarTransacao'])->name('transacao.cadastro');
     Route::post('/cadastrarTransacao', [TransacaoController::class, 'cadastrarTransacao'])->name('transacao.cadastro');
 });
 
-Route::group(['prefix' => 'usuario', 'middleware' => 'auth'], function()
-{
+Route::group(['prefix' => 'usuario', 'middleware' => 'auth'], function () {
     Route::get('/adicionarSaldo', [UsuarioController::class, 'adicionarSaldo'])->name('usuario.adicionarSaldo');
     Route::post('/adicionarSaldo', [UsuarioController::class, 'adicionarSaldo'])->name('usuario.adicionarSaldo');
 });
 
-Route::group(['prefix' => 'usuario'], function()
-{
+Route::group(['prefix' => 'usuario', 'middleware' => 'auth'], function () {
     Route::get('/cadastrarUsuario', [UsuarioController::class, 'cadastrarUsuario'])->name('usuario.cadastrarUsuario');
     Route::post('/cadastrarUsuario', [UsuarioController::class, 'cadastrarUsuario'])->name('usuario.cadastrarUsuario');
+
+    Route::get('/atualizarUsuario', [UsuarioController::class, 'atualizarUsuario'])->name('usuario.atualizarUsuario');
+    Route::put('/atualizarUsuario', [UsuarioController::class, 'atualizarUsuario'])->name('usuario.atualizarUsuario');
 });
 
-Route::group(['prefix' => 'errorModalDemo', 'middleware' => 'auth'], function()
-{
-    Route::get('', [ErroController::class,'index'])->name('erro.modal');
+Route::group(['prefix' => 'errorModalDemo', 'middleware' => 'auth'], function () {
+    Route::get('', [ErroController::class, 'index'])->name('erro.modal');
 });

@@ -9,11 +9,12 @@ class DashboardController extends Controller
 {
     public static function index(Request $request)
     {
-        $authId = Auth::user()->id;
-        $transacoesRelacionadas = TransacaoController::buscarTransacoesUsuarioAutenticado(['idUsuario' => $authId]);
-        // $transacoesRelacionadas = UsuarioController::buscarSaldo();
-        return view("dashboard.relatorio", [
-            "user" => auth()->user()
-        ]);
+        $userAuth = auth()->user();
+        $transacoesRelacionadas = TransacaoController::buscarTransacoesUsuarioAutenticado(['idUsuario' => $userAuth->id]);
+        $saldo = UsuarioController::buscarSaldo(['idUsuario' => $userAuth->id]);
+        $conversaoMoedas = TransacaoController::converterMoedas(['saldo' => $saldo->saldo]);
+        $saldo->saldo = str_replace('.', ',', $saldo->saldo);
+
+        return view("dashboard.relatorio", compact("userAuth","transacoesRelacionadas","saldo","conversaoMoedas"));
     }
 }

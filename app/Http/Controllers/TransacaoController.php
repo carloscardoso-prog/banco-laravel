@@ -48,22 +48,51 @@ class TransacaoController extends Controller
 
         $search = $dados['idUsuario'];
 
-        $retorno = Transacao::leftJoin('users as destinatario','users.id','=','transacaos.conta_destinatario')
-                ->leftJoin('users as remetente','users.id','=','transacaos.conta_remetente')
-                ->where('conta_remetente', $search)
-                ->orWhere('conta_destinatario', $search)
-                ->get();
-        dd($retorno);
+        $retorno = Transacao::select(array('transacaos.id', 'transacaos.valor_envio as valor_envio', 'remetente.name as nome_remetente', 'destinatario.name as nome_destinatario'))
+            ->leftJoin('users as destinatario', 'destinatario.id', '=', 'transacaos.conta_destinatario')
+            ->leftJoin('users as remetente', 'remetente.id', '=', 'transacaos.conta_remetente')
+            ->where('conta_remetente', $search)
+            ->orWhere('conta_destinatario', $search)
+            ->get();
+
+        if (!empty($retorno)) {
+            foreach($retorno as $chaveTransacao => &$transacao){
+                $transacao->taxa = $transacao->valor_envio * 0.05;
+
+                foreach($transacao->toArray() as $chaveDado => &$dado){
+                    if(is_numeric($dado)){
+                        $dado = number_format(floatval($dado), 2);
+                    }
+                    $retorno[$chaveTransacao][$chaveDado] = str_replace('.', ',', $dado);
+                }
+            }
+        }
+
+        return $retorno;
     }
 
-    public function getClientesPesquisarIndex(string $search = ''){
-        $cliente = $this->where(function($query) use ($search) {
-            if($search) {
-                $query->where('nome_cliente', "'". $search ."'");
-                $query->orWhere('nome_cliente', 'LIKE', "%{$search}%");
-            }
-        })->get();
+    public static function converterMoedas(array $dados)
+    {
+        $retorno = [];
+        $arrayConversao = ['usd', 'btc', 'eur'];
 
-        return $cliente;
+        //ele utiliza brl como padrão
+        foreach ($arrayConversao as $value) {
+            $valorConversao = DefaultController::cURLRequest([
+                "url" => "https://economia.awesomeapi.com.br/". strtoupper($value) ."/"
+            ]);
+
+            if(!empty($valorConversao)){
+                $retorno[$value] = number_format($dados['saldo'] / $valorConversao[0]['high'], 2);
+            }
+        }
+
+        foreach($retorno as &$valorRetorno){
+            $valorRetorno = DefaultController::converteValoresExibirTela(['valor' => $valorRetorno]);
+        }
+
+        unset($valorConversao);
+
+        return $retorno;
     }
 }

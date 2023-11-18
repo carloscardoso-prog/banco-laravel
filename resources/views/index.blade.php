@@ -79,22 +79,21 @@
                         </svg>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="{{ Route('dashboard.index') }}">Menu</a></li>
+                        <li><a class="dropdown-item" @disabled(true)>Menu</a></li>
+                        <li><a class="dropdown-item" href="{{ Route('dashboard.index') }}">Dashboard</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
+                        <li><a class="dropdown-item" @disabled(true)>Monetário</a></li>
                         <li><a class="dropdown-item" href="{{ Route('transacao.cadastro') }}"
                                 aria-current="page">Realizar Transação</a></li>
                         <li><a class="dropdown-item" href="{{ Route('usuario.adicionarSaldo') }}">Adicionar Saldo</a>
                         </li>
-                        {{-- <li><a class="dropdown-item" href="#">Products</a></li>
-                        <li><a class="dropdown-item" href="#">Reports</a></li>
-                        <li><a class="dropdown-item" href="#">Analytics</a></li> --}}
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Configurações</a></li>
+                        <li><a class="dropdown-item" @disabled(true)>Perfil</a></li>
+                        <li><a class="dropdown-item" href="{{ Route('usuario.atualizarUsuario') }}">Configurações</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

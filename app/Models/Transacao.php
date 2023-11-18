@@ -12,4 +12,5 @@ class Transacao extends Model
         'conta_remetente',
         'conta_destinatario'
     ];
+
 }
